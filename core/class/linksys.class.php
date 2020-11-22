@@ -369,7 +369,7 @@ class linksys extends eqLogic {
         $cmd->setEqLogic_id($this->getId());
         $cmd->setName('Modèle');
         $cmd->setType('info');
-        $cmd->setSubType('other');
+        $cmd->setSubType('string');
         $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
         $cmd->save();
@@ -384,7 +384,7 @@ class linksys extends eqLogic {
         $cmd->setEqLogic_id($this->getId());
         $cmd->setName('Firmware');
         $cmd->setType('info');
-        $cmd->setSubType('other');
+        $cmd->setSubType('string');
         $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
         $cmd->save();
