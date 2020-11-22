@@ -92,6 +92,7 @@ class linksys extends eqLogic {
       }
       else {
           if (isset($obj->output->isParentalControlEnabled)) {
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' pullLinksys: parentalstatus: ' . $obj->output->isParentalControlEnabled);
               $cmd = $this->getCmd(null, 'parentalstatus');
               $cmd->event($obj->output->isParentalControlEnabled);
           }
@@ -105,6 +106,7 @@ class linksys extends eqLogic {
       }
       else {
           if (isset($obj->output->isGuestNetworkEnabled)) {
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' pullLinksys: gueststatus: ' . $obj->output->isGuestNetworkEnabled);
               $cmd = $this->getCmd(null, 'gueststatus');
               $cmd->event($obj->output->isGuestNetworkEnabled);
           }
@@ -120,6 +122,47 @@ class linksys extends eqLogic {
           log::add(__CLASS__, 'error', $this->getHumanName() . ' core/Reboot:' . $obj->result);
       } else {
           log::add(__CLASS__, 'debug', $this->getHumanName() . ' Reboot requested');
+      }
+    }
+    
+    public function configParental($onoff) {
+      log::add(__CLASS__, 'debug', $this->getHumanName() . ' configParental ' . $onoff);
+      $result = $this->executeLinksysCommand("parentalcontrol/GetParentalControlSettings");
+      $obj = json_decode($result);  
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          log::add(__CLASS__, 'error', $this->getHumanName() . ' parentalcontrol/GetParentalControlSettings:' . $obj->result);
+      } else {
+          $rules = $obj->output->rules;
+          $arr = array('isParentalControlEnabled' => $onoff, 'rules' => $rules);
+          $json = json_encode($arr);
+          $result = $this->executeLinksysCommand("parentalcontrol/SetParentalControlSettings", $json);
+          $obj = json_decode($result);  
+          if (!isset($obj->result) || $obj->result <> "OK") {
+            log::add(__CLASS__, 'error', $this->getHumanName() . ' parentalcontrol/SetParentalControlSettings:' . $obj->result);
+          } else {
+            log::add(__CLASS__, 'debug', $this->getHumanName() . ' Parental Control: ' . $onoff);
+          }
+      }
+    }
+    
+    public function configGuest($onoff) {
+      log::add(__CLASS__, 'debug', $this->getHumanName() . ' configGuest ' . $onoff);
+      $result = $this->executeLinksysCommand("guestnetwork/GetGuestRadioSettings");
+      $obj = json_decode($result);  
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          log::add(__CLASS__, 'error', $this->getHumanName() . ' guestnetwork/GetGuestRadioSettings:' . $obj->result);
+      } else {
+          $radios = $obj->output->radios;
+          $max = $obj->output->maxSimultaneousGuests;
+          $arr = array('isGuestNetworkEnabled' => $onoff, 'maxSimultaneousGuests' => $max, 'radios' => $radios);
+          $json = json_encode($arr);
+          $result = $this->executeLinksysCommand("guestnetwork/SetGuestRadioSettings", $json);
+          $obj = json_decode($result);  
+          if (!isset($obj->result) || $obj->result <> "OK") {
+            log::add(__CLASS__, 'error', $this->getHumanName() . ' guestnetwork/SetGuestRadioSettings:' . $obj->result);
+          } else {
+            log::add(__CLASS__, 'debug', $this->getHumanName() . ' Guest Control: ' . $onoff);
+          }
       }
     }
  
@@ -238,6 +281,62 @@ class linksys extends eqLogic {
         $cmd->setIsHistorized(0);
         $cmd->save();
       }
+      
+      $cmd = $this->getCmd(null, 'setparental');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : setparental/Activer Contrôle Parental');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('setparental');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Activer Contrôle Parental');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'unsetparental');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : unsetparental/Désactiver Contrôle Parental');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('unsetparental');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Désactiver Contrôle Parental');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'setguest');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : setguest/Activer Réseau Invités');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('setguest');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Activer Réseau Invités');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'unsetguest');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : unsetguest/Désactiver Réseau Invités');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('unsetguest');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Désactiver Réseau Invités');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->save();
+      }
         
       if ($this->getIsEnable() == 1) {
         $this->pullLinksys();
@@ -299,13 +398,25 @@ class linksysCmd extends cmd {
        if (!is_object($eqLogic) || $eqLogic->getIsEnable() != 1) {
          throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName(), __FILE__));
        }
-       log::add('linksys', 'debug', 'Execution de la commande' . $this->getLogicalId());
+       log::add('linksys', 'debug', 'Execution de la commande ' . $this->getLogicalId());
        switch ($this->getLogicalId()) {
            case "refresh":
                $eqLogic->pullLinksys();
                break;
            case "reboot":
                $eqLogic->rebootLinksys();
+               break;
+           case "setparental":
+               $eqLogic->configParental(true);
+               break;
+           case "unsetparental":
+               $eqLogic->configParental(false);
+               break;
+           case "setguest":
+               $eqLogic->configGuest(true);
+               break;
+           case "unsetguest":
+               $eqLogic->configGuest(false);
                break;
        }
      }
