@@ -50,39 +50,66 @@ class linksys extends eqLogic {
       
       if (!isset($obj->result) || $obj->result <> "OK") {
           log::add(__CLASS__, 'error', $this->getHumanName() . ' devicelist/GetDevices3:' . $obj->result);
-          return;
-      }
-      
-      $devices = $obj->output->devices;
-      
-      $wifi24 = 0;
-      $wifi5 = 0;
-      $wired = 0;
-      
-      foreach($devices as $device) {
-          if (isset($device->connections[0]->ipAddress)) {
-              if (isset($device->knownInterfaces[0]->interfaceType)) {
-                  if ($device->knownInterfaces[0]->interfaceType == "Wireless") {
-                     if ($device->knownInterfaces[0]->band == "2.4GHz") {
-                         $wifi24++;
-                     } else {
-                         $wifi5++;
-                     } 
-                  } else {
-                      $wired++;
+      } 
+      else {      
+          $devices = $obj->output->devices;
+
+          $wifi24 = 0;
+          $wifi5 = 0;
+          $wired = 0;
+
+          foreach($devices as $device) {
+              if (isset($device->connections[0]->ipAddress)) {
+                  if (isset($device->knownInterfaces[0]->interfaceType)) {
+                      if ($device->knownInterfaces[0]->interfaceType == "Wireless") {
+                         if ($device->knownInterfaces[0]->band == "2.4GHz") {
+                             $wifi24++;
+                         } else {
+                             $wifi5++;
+                         } 
+                      } else {
+                          $wired++;
+                      }
                   }
               }
           }
+
+          log::add(__CLASS__, 'debug', $this->getHumanName() . ' pullLinksys: wifi24: ' . $wifi24 . ', wifi5: ' . $wifi5 . ', wired: ' . $wired);
+
+          $cmd = $this->getCmd(null, 'wifi24');
+          $cmd->event($wifi24);
+          $cmd = $this->getCmd(null, 'wifi5');
+          $cmd->event($wifi5);
+          $cmd = $this->getCmd(null, 'wired');
+          $cmd->event($wired);
       }
-      
-      log::add(__CLASS__, 'debug', $this->getHumanName() . ' pullLinksys: wifi24: ' . $wifi24 . ', wifi5: ' . $wifi5 . ', wired: ' . $wired);
         
-      $cmd = $this->getCmd(null, 'wifi24');
-      $cmd->event($wifi24);
-      $cmd = $this->getCmd(null, 'wifi5');
-      $cmd->event($wifi5);
-      $cmd = $this->getCmd(null, 'wired');
-      $cmd->event($wired);
+      $result = $this->executeLinksysCommand("parentalcontrol/GetParentalControlSettings");
+      $obj = json_decode($result);  
+      
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          log::add(__CLASS__, 'error', $this->getHumanName() . ' parentalcontrol/GetParentalControlSettings:' . $obj->result);
+      }
+      else {
+          if (isset($obj->output->isParentalControlEnabled)) {
+              $cmd = $this->getCmd(null, 'parentalstatus');
+              $cmd->event($obj->output->isParentalControlEnabled);
+          }
+      }
+
+      $result = $this->executeLinksysCommand("guestnetwork/GetGuestRadioSettings");
+      $obj = json_decode($result);  
+      
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          log::add(__CLASS__, 'error', $this->getHumanName() . ' guestnetwork/GetGuestRadioSettings:' . $obj->result);
+      }
+      else {
+          if (isset($obj->output->isGuestNetworkEnabled)) {
+              $cmd = $this->getCmd(null, 'gueststatus');
+              $cmd->event($obj->output->isGuestNetworkEnabled);
+          }
+      }
+    
     }
     
     public function rebootLinksys() {
@@ -179,6 +206,36 @@ class linksys extends eqLogic {
         $cmd->setType('action');
         $cmd->setSubType('other');
         $cmd->setEventOnly(1);
+        $cmd->save();
+      }
+      
+      $cmd = $this->getCmd(null, 'gueststatus');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : gueststatus/Réseau Invités');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('gueststatus');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Réseau Invités');
+        $cmd->setType('info');
+        $cmd->setSubType('binary');
+        $cmd->setEventOnly(1);
+        $cmd->setIsHistorized(0);
+        $cmd->save();
+      }
+      
+      $cmd = $this->getCmd(null, 'parentalstatus');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : parentalstatus/Contrôle Parental');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('parentalstatus');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Contrôle Parental');
+        $cmd->setType('info');
+        $cmd->setSubType('binary');
+        $cmd->setEventOnly(1);
+        $cmd->setIsHistorized(0);
         $cmd->save();
       }
         
