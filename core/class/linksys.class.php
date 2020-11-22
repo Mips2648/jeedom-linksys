@@ -77,9 +77,9 @@ class linksys extends eqLogic {
       
       $cmd = $this->getCmd(null, 'wifi24');
       $cmd->event($wifi24);
-      $cmd = $this->getCmd(null, '$wifi5');
+      $cmd = $this->getCmd(null, 'wifi5');
       $cmd->event($wifi5);
-      $cmd = $this->getCmd(null, '$wired');
+      $cmd = $this->getCmd(null, 'wired');
       $cmd->event($wired);
     }
  
@@ -134,7 +134,7 @@ class linksys extends eqLogic {
       $cmd = $this->getCmd(null, 'refresh');
       if (!is_object($cmd))
       {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande :'.$logicalId.'/'.$name);
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : refresh/Rafraichir');
   		$cmd = new linksysCmd();
         $cmd->setLogicalId('refresh');
         $cmd->setEqLogic_id($this->getId());
