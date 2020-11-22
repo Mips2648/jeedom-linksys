@@ -115,7 +115,7 @@ class linksys extends eqLogic {
       if (empty($this->getConfiguration('password'))) {
         throw new Exception(__('Le mot de passe du compte Admin doit être renseigné',__FILE__));
       }
-      if (filter_var($this->getConfiguration('ip'), FILTER_VALIDATE_IP)) {
+      if (!filter_var($this->getConfiguration('ip'), FILTER_VALIDATE_IP)) {
         throw new Exception(__('L\'adresse IP a un format invalide',__FILE__));
       }
       $result = $this->executeFullLinksysCommand($this->getConfiguration('ip'), $this->getConfiguration('login'), $this->getConfiguration('password'), "core/CheckAdminPassword");
@@ -219,7 +219,7 @@ class linksys extends eqLogic {
       $ip = $this->getConfiguration('ip');
       $login = $this->getConfiguration('login');
       $password = $this->getConfiguration('password'); 
-      return executeFullLinksysCommand($ip, $login, $password, $action, $params);
+      return $this->executeFullLinksysCommand($ip, $login, $password, $action, $params);
     }
 
 }
