@@ -11,7 +11,6 @@ Ce qui est disponible :
 - Reboot
 
 >**Important**      
->This plugin has been tested with Linkys Velop VLP01 and firmware 1.1.13.202617. Will most probably work with others.
 >Le plugin a été testé avec un routeur Linksys Velop VLP01 et firmware 1.1.13.202617. Devrait fonctionner pour d'autres modèles également.
 
 # Configuration
