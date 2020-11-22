@@ -44,11 +44,11 @@ class linksys extends eqLogic {
 
     public function pullLinksys()
     {
-        
+      log::add(__CLASS__, 'debug', $this->getHumanName() . ' Execution of pullLinksys');
       $result = $this->executeLinksysCommand("devicelist/GetDevices3");
       $obj = json_decode($result);  
       
-      if ($obj->result <> "OK") {
+      if (!isset($obj->result) || $obj->result <> "OK") {
           log::add(__CLASS__, 'error', $this->getHumanName() . ' devicelist/GetDevices3:' . $obj->result);
           return;
       }
@@ -60,8 +60,8 @@ class linksys extends eqLogic {
       $wired = 0;
       
       foreach($devices as $device) {
-          if (property_exists($device->connections[0]->ipAddress)) {
-              if (property_exists($device->knownInterfaces[0]->interfaceType)) {
+          if (isset($device->connections[0]->ipAddress)) {
+              if (isset($device->knownInterfaces[0]->interfaceType)) {
                   if ($device->knownInterfaces[0]->interfaceType == "Wireless") {
                      if ($device->knownInterfaces[0]->band == "2.4GHz") {
                          $wifi24++;
@@ -75,6 +75,8 @@ class linksys extends eqLogic {
           }
       }
       
+      log::add(__CLASS__, 'debug', $this->getHumanName() . ' pullLinksys: wifi24: ' . $wifi24 . ', wifi5: ' . $wifi5 . ', wired: ' . $wired);
+        
       $cmd = $this->getCmd(null, 'wifi24');
       $cmd->event($wifi24);
       $cmd = $this->getCmd(null, 'wifi5');
@@ -82,23 +84,44 @@ class linksys extends eqLogic {
       $cmd = $this->getCmd(null, 'wired');
       $cmd->event($wired);
     }
+    
+    public function rebootLinksys() {
+      log::add(__CLASS__, 'debug', $this->getHumanName() . ' Execution of rebootLinksys');
+      $result = $this->executeLinksysCommand("core/Reboot");
+      $obj = json_decode($result);  
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          log::add(__CLASS__, 'error', $this->getHumanName() . ' core/Reboot:' . $obj->result);
+      } else {
+          log::add(__CLASS__, 'debug', $this->getHumanName() . ' Reboot requested');
+      }
+    }
  
  // Fonction exécutée automatiquement avant la création de l'équipement
     public function preInsert() {
       $this->setDisplay('height','332px');
       $this->setDisplay('width', '192px');
-      //$this->setCategory('energy', 1);
       $this->setIsEnable(1);
       $this->setIsVisible(1);
     }
 
  // Fonction exécutée automatiquement avant la mise à jour de l'équipement
     public function preUpdate() {
+      if (empty($this->getConfiguration('ip'))) {
+        throw new Exception(__('L\'adresse IP du routeur doit être renseignée',__FILE__));
+      }
       if (empty($this->getConfiguration('login'))) {
-        throw new Exception(__('L\'identifiant du compte GRDF doit être renseigné',__FILE__));
+        throw new Exception(__('L\'identifiant du compte Admin doit être renseigné',__FILE__));
       }
       if (empty($this->getConfiguration('password'))) {
-        throw new Exception(__('Le mot de passe du compte GRDF doit être renseigné',__FILE__));
+        throw new Exception(__('Le mot de passe du compte Admin doit être renseigné',__FILE__));
+      }
+      if (filter_var($this->getConfiguration('ip'), FILTER_VALIDATE_IP)) {
+        throw new Exception(__('L\'adresse IP a un format invalide',__FILE__));
+      }
+      $result = $this->executeFullLinksysCommand($this->getConfiguration('ip'), $this->getConfiguration('login'), $this->getConfiguration('password'), "core/CheckAdminPassword");
+      $obj = json_decode($result);  
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          throw new Exception(__('Impossible de se connecter au routeur, vérifiez vos paramètres',__FILE__));
       }
     }
 
@@ -145,18 +168,27 @@ class linksys extends eqLogic {
         $cmd->save();
       }
 
+      $cmd = $this->getCmd(null, 'reboot');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : reboot/Reboot');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('reboot');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Reboot');
+        $cmd->setType('acion');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->save();
+      }
+        
       if ($this->getIsEnable() == 1) {
         $this->pullLinksys();
       }
 
     }
     
-    
-    public function executeLinksysCommand($action, $params = '{}') {
-      $ip = $this->getConfiguration('ip');
-      $login = $this->getConfiguration('login');
-      $password = $this->getConfiguration('password');    
-      
+    public function executeFullLinksysCommand($ip, $login, $password, $action, $params = '{}') { 
       $curl = curl_init();
       curl_setopt_array($curl, array(
         CURLOPT_URL => "http://" . $ip . "/JNAP/",
@@ -180,7 +212,14 @@ class linksys extends eqLogic {
       ));
       $response = curl_exec($curl);
       curl_close($curl);
-      return $response;
+      return $response;    
+    }
+    
+    public function executeLinksysCommand($action, $params = '{}') {
+      $ip = $this->getConfiguration('ip');
+      $login = $this->getConfiguration('login');
+      $password = $this->getConfiguration('password'); 
+      return executeFullLinksysCommand($ip, $login, $password, $action, $params);
     }
 
 }
@@ -203,10 +242,13 @@ class linksysCmd extends cmd {
        if (!is_object($eqLogic) || $eqLogic->getIsEnable() != 1) {
          throw new Exception(__('Equipement desactivé impossible d\éxecuter la commande : ' . $this->getHumanName(), __FILE__));
        }
-       log::add('linksys', 'debug', 'Execution de la Ccmmande' . $this->getLogicalId());
+       log::add('linksys', 'debug', 'Execution de la commande' . $this->getLogicalId());
        switch ($this->getLogicalId()) {
            case "refresh":
                $eqLogic->pullLinksys();
+               break;
+           case "reboot":
+               $eqLogic->rebootLinksys();
                break;
        }
      }
