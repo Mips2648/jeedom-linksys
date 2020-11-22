@@ -58,7 +58,7 @@ class linksys extends eqLogic {
               $cmd = $this->getCmd(null, 'model');
               $cmd->event($obj->output->manufacturer . ' ' . $obj->output->modelNumber);
           }
-          if (isset($obj->output->firmwareVersion))) {
+          if (isset($obj->output->firmwareVersion)) {
               log::add(__CLASS__, 'debug', $this->getHumanName() . ' firmware: ' . $obj->output->firmwareVersion);
               $cmd = $this->getCmd(null, 'firmware');
               $cmd->event($obj->output->firmwareVersion);
