@@ -45,6 +45,26 @@ class linksys extends eqLogic {
     public function pullLinksys()
     {
       log::add(__CLASS__, 'debug', $this->getHumanName() . ' Execution of pullLinksys');
+    
+      $result = $this->executeLinksysCommand("core/GetDeviceInfo");
+      $obj = json_decode($result);  
+      
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          log::add(__CLASS__, 'error', $this->getHumanName() . ' core/GetDeviceInfo:' . $obj->result);
+      }
+      else {
+          if (isset($obj->output->manufacturer) && isset($obj->output->modelNumber)) {
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' model: ' . $obj->output->manufacturer . ' ' . $obj->output->modelNumber);
+              $cmd = $this->getCmd(null, 'model');
+              $cmd->event($obj->output->manufacturer . ' ' . $obj->output->modelNumber);
+          }
+          if (isset($obj->output->firmwareVersion))) {
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' firmware: ' . $obj->output->firmwareVersion);
+              $cmd = $this->getCmd(null, 'firmware');
+              $cmd->event($obj->output->firmwareVersion);
+          }
+      }
+          
       $result = $this->executeLinksysCommand("devicelist/GetDevices3");
       $obj = json_decode($result);  
       
@@ -92,7 +112,7 @@ class linksys extends eqLogic {
       }
       else {
           if (isset($obj->output->isParentalControlEnabled)) {
-              log::add(__CLASS__, 'debug', $this->getHumanName() . ' pullLinksys: parentalstatus: ' . $obj->output->isParentalControlEnabled);
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' parentalstatus: ' . $obj->output->isParentalControlEnabled);
               $cmd = $this->getCmd(null, 'parentalstatus');
               $cmd->event($obj->output->isParentalControlEnabled);
           }
@@ -106,7 +126,7 @@ class linksys extends eqLogic {
       }
       else {
           if (isset($obj->output->isGuestNetworkEnabled)) {
-              log::add(__CLASS__, 'debug', $this->getHumanName() . ' pullLinksys: gueststatus: ' . $obj->output->isGuestNetworkEnabled);
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' gueststatus: ' . $obj->output->isGuestNetworkEnabled);
               $cmd = $this->getCmd(null, 'gueststatus');
               $cmd->event($obj->output->isGuestNetworkEnabled);
           }
@@ -141,6 +161,7 @@ class linksys extends eqLogic {
             log::add(__CLASS__, 'error', $this->getHumanName() . ' parentalcontrol/SetParentalControlSettings:' . $obj->result);
           } else {
             log::add(__CLASS__, 'debug', $this->getHumanName() . ' Parental Control: ' . $onoff);
+            $this->pullLinksys();
           }
       }
     }
@@ -162,6 +183,7 @@ class linksys extends eqLogic {
             log::add(__CLASS__, 'error', $this->getHumanName() . ' guestnetwork/SetGuestRadioSettings:' . $obj->result);
           } else {
             log::add(__CLASS__, 'debug', $this->getHumanName() . ' Guest Control: ' . $onoff);
+            $this->pullLinksys();
           }
       }
     }
@@ -335,6 +357,36 @@ class linksys extends eqLogic {
         $cmd->setType('action');
         $cmd->setSubType('other');
         $cmd->setEventOnly(1);
+        $cmd->save();
+      }
+
+      $cmd = $this->getCmd(null, 'model');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : model/Modèle');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('model');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Modèle');
+        $cmd->setType('info');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setIsHistorized(0);
+        $cmd->save();
+      }
+
+      $cmd = $this->getCmd(null, 'firmware');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : firmware/Firmware');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('firmware');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Firmware');
+        $cmd->setType('info');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setIsHistorized(0);
         $cmd->save();
       }
         

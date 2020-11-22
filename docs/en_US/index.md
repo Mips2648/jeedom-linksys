@@ -1,45 +1,31 @@
-# GRDF Gazpar
+# Linksys
 
-Plugin allowing the recovery of consumption of the communicating meter *Gazpar* by querying the customer account *GRDF*. As the data is not made available in real time, the plugin retrieves the gaz consumption data from the day before each day.
+Plugin allowing to control some aspects of your compatible Linksys routers.
 
-2 types of consumption data are accessible :
-- the **daily consumption** *(in kWh and m3)*.
-- the **monthly consumption** *(in kWh and m3)*.
+What is available:
+- Model and firmware
+- Status of Guest network and Parental controls mode
+- Number of devices connected to the router per type of connection 
+- Activate/Deactivate parental controls
+- Activate/Deactivate guest network
+- Reboot
 
 >**Important**      
->You must have a GRDF customer account. The plugin retrieves information from the game *my space* <a href="https://monespace.grdf.fr/monespace/particulier/accueil" target="_blank">of the GRDF website</a>, you must therefore check that you have access to it with your usual identifiers and that the data is visible there. Otherwise, the plugin will not work.
+>This plugin has been tested with Linkys Velop VLP01 and firmware 1.1.13.202617. Will most probably work with others.
 
 # Configuration
 
 ## Plugin configuration
 
-The plugin **GRDF Gazpar** does not require any specific configuration and should only be activated after installation.
+The plugin **Linksys** does not require any specific configuration and should only be activated after installation.
 
-The data is checked every hour between 4 a.m. and 10 p.m. and updated only if not available in Jeedom.
+The data is checked every 5 minutes.
 
 ## Equipment configuration
 
-To access the different equipment **GRDF Gazpar**, go to the menu **Plugins → Energy → GRDF Gazpar**.
+To access the different equipment **Linksys**, go to the menu **Plugins → Communication → Linksys**.
 
-> **To know**    
-> The button **+ Add** allows you to add a new account **GRDF Gazpar**.
-
-On the equipment page, fill in the'**Login** as well as the **Password** of your customer account *GRDF* then click on the button **Save**.
-
-The option **Force data retrieval** to force data retrieval even if data is already present for concerned periods.
-
-The plugin will then check the correct connection to the site *GRDF* and retrieve and insert in history :
-- **daily consumption** : the last 10 days,
-- **monthly consumption** : the last 12 months,
-
->**TRICK**     
->In desktop version, the information displayed on the widget adapts in size when resizing the tile.
-
-# Remarks
-
-During tests, it appeared that the GRDF website is quite "unstable" with direct impacts on the plugin. On Jeedom, the plugin is configured to gather data every hour. It may happen that it does not work each time: no issue, just wait for the next scheduled run.
-
-This plugin heavily relies on how the GRDF website is structured/designed. Any change on the website will most probably break the plugin and will then require to perform code changes on the plugin.
+On the equipment page, fill in local router IP address, Admin login (usually 'admin'), and Admin password
 
 # Contributions
 
@@ -49,13 +35,12 @@ This plugin is opened for contributions and even encouraged! Please submit your 
 
 This plugin has been inspired by the work done by:
 
--   [Jeedom](https://github.com/jeedom)  through their Enedis plugin:  [plugin-enedis](https://github.com/jeedom/plugin-enedis)
--   [empierre](https://github.com/empierre)  through his similar work done for Domoticz:  [domoticz_gaspar](https://github.com/empierre/domoticz_gaspar)
+-   [reujab](https://github.com/reujab)  through his JNAP Go library:  [linksys](https://github.com/reujab/linksys)
 
 # Disclaimer
 
 -   This code does not pretend to be bug-free
--   Although it should not harm your Jeedom system, it is provided without any warranty or liability
+-   Although it should not harm your Jeedom system or Linksys router, it is provided without any warranty or liability
 
 # ChangeLog
 Available [here](./changelog.html).
