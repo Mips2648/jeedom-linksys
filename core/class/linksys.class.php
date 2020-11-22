@@ -162,7 +162,7 @@ class linksys extends eqLogic {
         $cmd->setLogicalId('refresh');
         $cmd->setEqLogic_id($this->getId());
         $cmd->setName('Rafraichir');
-        $cmd->setType('acion');
+        $cmd->setType('action');
         $cmd->setSubType('other');
         $cmd->setEventOnly(1);
         $cmd->save();
@@ -176,7 +176,7 @@ class linksys extends eqLogic {
         $cmd->setLogicalId('reboot');
         $cmd->setEqLogic_id($this->getId());
         $cmd->setName('Reboot');
-        $cmd->setType('acion');
+        $cmd->setType('action');
         $cmd->setSubType('other');
         $cmd->setEventOnly(1);
         $cmd->save();
