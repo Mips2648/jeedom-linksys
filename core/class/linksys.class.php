@@ -190,8 +190,8 @@ class linksys extends eqLogic {
  
  // Fonction exécutée automatiquement avant la création de l'équipement
     public function preInsert() {
-      $this->setDisplay('height','332px');
-      $this->setDisplay('width', '192px');
+      $this->setDisplay('height','300px');
+      $this->setDisplay('width', '384px');
       $this->setIsEnable(1);
       $this->setIsVisible(1);
     }
@@ -219,147 +219,7 @@ class linksys extends eqLogic {
 
  // Fonction exécutée automatiquement après la mise à jour de l'équipement
     public function postUpdate() {
-      $cmdInfos = [
-    		'wifi24' => 'Wifi 2.4GHz',
-    		'wifi5' => 'Wifi 5GHz',
-            'wired' => 'Ethernet'
-    	];
-
-      foreach ($cmdInfos as $logicalId => $name)
-      {
-        $cmd = $this->getCmd(null, $logicalId);
-        if (!is_object($cmd))
-        {
-          log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande :'.$logicalId.'/'.$name);
-  		  $cmd = new linksysCmd();
-          $cmd->setLogicalId($logicalId);
-          $cmd->setEqLogic_id($this->getId());
-          $cmd->setIsHistorized(1);
-          $cmd->setDisplay('showStatsOndashboard', 0);
-          $cmd->setDisplay('showStatsOnmobile', 0);
-          $cmd->setTemplate('dashboard','tile');
-          $cmd->setTemplate('mobile','tile');
-          $cmd->setName($name);
-          $cmd->setType('info');
-          $cmd->setSubType('numeric');
-          $cmd->save();
-        }
-      }
-      
-      $cmd = $this->getCmd(null, 'refresh');
-      if (!is_object($cmd))
-      {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : refresh/Rafraichir');
-  		$cmd = new linksysCmd();
-        $cmd->setLogicalId('refresh');
-        $cmd->setEqLogic_id($this->getId());
-        $cmd->setName('Rafraichir');
-        $cmd->setType('action');
-        $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
-        $cmd->save();
-      }
-
-      $cmd = $this->getCmd(null, 'reboot');
-      if (!is_object($cmd))
-      {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : reboot/Reboot');
-  		$cmd = new linksysCmd();
-        $cmd->setLogicalId('reboot');
-        $cmd->setEqLogic_id($this->getId());
-        $cmd->setName('Reboot');
-        $cmd->setType('action');
-        $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
-        $cmd->save();
-      }
-      
-      $cmd = $this->getCmd(null, 'gueststatus');
-      if (!is_object($cmd))
-      {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : gueststatus/Réseau Invités');
-  		$cmd = new linksysCmd();
-        $cmd->setLogicalId('gueststatus');
-        $cmd->setEqLogic_id($this->getId());
-        $cmd->setName('Réseau Invités');
-        $cmd->setType('info');
-        $cmd->setSubType('binary');
-        $cmd->setEventOnly(1);
-        $cmd->setIsHistorized(0);
-        $cmd->save();
-      }
-      
-      $cmd = $this->getCmd(null, 'parentalstatus');
-      if (!is_object($cmd))
-      {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : parentalstatus/Contrôle Parental');
-  		$cmd = new linksysCmd();
-        $cmd->setLogicalId('parentalstatus');
-        $cmd->setEqLogic_id($this->getId());
-        $cmd->setName('Contrôle Parental');
-        $cmd->setType('info');
-        $cmd->setSubType('binary');
-        $cmd->setEventOnly(1);
-        $cmd->setIsHistorized(0);
-        $cmd->save();
-      }
-      
-      $cmd = $this->getCmd(null, 'setparental');
-      if (!is_object($cmd))
-      {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : setparental/Activer Contrôle Parental');
-  		$cmd = new linksysCmd();
-        $cmd->setLogicalId('setparental');
-        $cmd->setEqLogic_id($this->getId());
-        $cmd->setName('Activer Contrôle Parental');
-        $cmd->setType('action');
-        $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
-        $cmd->save();
-      }
-        
-      $cmd = $this->getCmd(null, 'unsetparental');
-      if (!is_object($cmd))
-      {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : unsetparental/Désactiver Contrôle Parental');
-  		$cmd = new linksysCmd();
-        $cmd->setLogicalId('unsetparental');
-        $cmd->setEqLogic_id($this->getId());
-        $cmd->setName('Désactiver Contrôle Parental');
-        $cmd->setType('action');
-        $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
-        $cmd->save();
-      }
-        
-      $cmd = $this->getCmd(null, 'setguest');
-      if (!is_object($cmd))
-      {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : setguest/Activer Réseau Invités');
-  		$cmd = new linksysCmd();
-        $cmd->setLogicalId('setguest');
-        $cmd->setEqLogic_id($this->getId());
-        $cmd->setName('Activer Réseau Invités');
-        $cmd->setType('action');
-        $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
-        $cmd->save();
-      }
-        
-      $cmd = $this->getCmd(null, 'unsetguest');
-      if (!is_object($cmd))
-      {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : unsetguest/Désactiver Réseau Invités');
-  		$cmd = new linksysCmd();
-        $cmd->setLogicalId('unsetguest');
-        $cmd->setEqLogic_id($this->getId());
-        $cmd->setName('Désactiver Réseau Invités');
-        $cmd->setType('action');
-        $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
-        $cmd->save();
-      }
-
+    
       $cmd = $this->getCmd(null, 'model');
       if (!is_object($cmd))
       {
@@ -372,6 +232,7 @@ class linksys extends eqLogic {
         $cmd->setSubType('string');
         $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
+        $cmd->setOrder(1);
         $cmd->save();
       }
 
@@ -387,6 +248,196 @@ class linksys extends eqLogic {
         $cmd->setSubType('string');
         $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
+        $cmd->setDisplay('forceReturnLineAfter', 1);
+        $cmd->setOrder(2);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'wifi24');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : wifi24/Wifi 2.4GHz');
+        $cmd = new linksysCmd();
+        $cmd->setLogicalId('wifi24');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setIsHistorized(1);
+        $cmd->setDisplay('showStatsOndashboard', 0);
+        $cmd->setDisplay('showStatsOnmobile', 0);
+        $cmd->setTemplate('dashboard','tile');
+        $cmd->setTemplate('mobile','tile');
+        $cmd->setName('Wifi 2.4GHz');
+        $cmd->setType('info');
+        $cmd->setSubType('numeric');
+        $cmd->setOrder(4);
+        $cmd->save();
+      }
+
+      $cmd = $this->getCmd(null, 'wifi5');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : wifi5/Wifi 5GHz');
+        $cmd = new linksysCmd();
+        $cmd->setLogicalId('wifi5');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setIsHistorized(1);
+        $cmd->setDisplay('showStatsOndashboard', 0);
+        $cmd->setDisplay('showStatsOndashboard', 0);
+        $cmd->setDisplay('showStatsOnmobile', 0);
+        $cmd->setTemplate('dashboard','tile');
+        $cmd->setTemplate('mobile','tile');
+        $cmd->setName('Wifi 5GHz');
+        $cmd->setType('info');
+        $cmd->setSubType('numeric');
+        $cmd->setOrder(5);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'wired');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : wired/Ethernet');
+        $cmd = new linksysCmd();
+        $cmd->setLogicalId('wired');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setIsHistorized(1);
+        $cmd->setDisplay('showStatsOndashboard', 0);
+        $cmd->setDisplay('showStatsOndashboard', 0);
+        $cmd->setDisplay('showStatsOnmobile', 0);
+        $cmd->setTemplate('dashboard','tile');
+        $cmd->setTemplate('mobile','tile');
+        $cmd->setName('Ethernet');
+        $cmd->setType('info');
+        $cmd->setSubType('numeric');
+        $cmd->setDisplay('forceReturnLineAfter', 1);
+        $cmd->setOrder(6);
+        $cmd->save();
+      }
+      
+      $cmd = $this->getCmd(null, 'parentalstatus');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : parentalstatus/Contrôle Parental');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('parentalstatus');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Contrôle Parental');
+        $cmd->setType('info');
+        $cmd->setSubType('binary');
+        $cmd->setEventOnly(1);
+        $cmd->setIsHistorized(0);
+        $cmd->setTemplate('mobile', 'line');
+        $cmd->setTemplate('dashboard', 'line');
+        $cmd->setOrder(7);
+        $cmd->save();
+      }
+      
+      $cmd = $this->getCmd(null, 'setparental');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : setparental/Activer Contrôle Parental');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('setparental');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Activer Contrôle Parental');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setOrder(8);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'unsetparental');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : unsetparental/Désactiver Contrôle Parental');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('unsetparental');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Désactiver Contrôle Parental');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setDisplay('forceReturnLineAfter', 1);
+        $cmd->setOrder(9);
+        $cmd->save();
+      }
+
+      $cmd = $this->getCmd(null, 'gueststatus');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : gueststatus/Réseau Invités');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('gueststatus');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Réseau Invités');
+        $cmd->setType('info');
+        $cmd->setSubType('binary');
+        $cmd->setEventOnly(1);
+        $cmd->setIsHistorized(0);
+        $cmd->setTemplate('mobile', 'line');
+        $cmd->setTemplate('dashboard', 'line');
+        $cmd->setOrder(10);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'setguest');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : setguest/Activer Réseau Invités');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('setguest');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Activer Réseau Invités');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setOrder(11);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'unsetguest');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : unsetguest/Désactiver Réseau Invités');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('unsetguest');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Désactiver Réseau Invités');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setOrder(12);
+        $cmd->setDisplay('forceReturnLineAfter', 1);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'reboot');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : reboot/Reboot');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('reboot');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Reboot');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setOrder(13);
+        $cmd->save();
+      }
+          
+      $cmd = $this->getCmd(null, 'refresh');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : refresh/Rafraichir');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('refresh');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Rafraichir');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setOrder(20);
         $cmd->save();
       }
         

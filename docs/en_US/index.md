@@ -1,4 +1,4 @@
-# Linksys
+# Plugin Linksys
 
 Plugin allowing to control some aspects of your compatible Linksys routers.
 
