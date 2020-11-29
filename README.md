@@ -1,4 +1,4 @@
-# plugin-jazpar
+# plugin-linksys
 This is a plugin for Jeedom aimed at retrieveing informations and control some aspects of comaptibale Linksys routers.
 
 This implies to have a compatible Linksys router and a proper local Jeedom installation.
