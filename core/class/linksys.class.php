@@ -72,8 +72,6 @@ class linksys extends eqLogic {
           $pullMethodRecorded = false;
           $pullMethod = "devicelist/GetDevices3";
       }
-    
-      $pullMethod = "networkconnections/GetNetworkConnections";
         
       $result = $this->executeLinksysCommand($pullMethod);
       $obj = json_decode($result);  
