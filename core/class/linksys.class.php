@@ -145,6 +145,24 @@ class linksys extends eqLogic {
               $cmd->event($obj->output->isGuestNetworkEnabled);
           }
       }
+      
+      $result = $this->executeLinksysCommand("router/GetWANStatus");
+      $obj = json_decode($result);  
+      
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          log::add(__CLASS__, 'error', $this->getHumanName() . ' router/GetWANStatus:' . $obj->result);
+      }
+      else {
+          if (isset($obj->output->wanStatus)) {
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' gueststatus: ' . $obj->output->wanStatus);
+              $wanok = false;
+              if ($obj->output->wanStatus == "Connected") {
+                 $wanok = true; 
+              }
+              $cmd = $this->getCmd(null, 'wanstatus');
+              $cmd->event($wanok);
+          }
+      }
     
     }
     
@@ -308,6 +326,24 @@ class linksys extends eqLogic {
         $cmd->setIsHistorized(0);
         $cmd->setDisplay('forceReturnLineAfter', 1);
         $cmd->setOrder(2);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'wanstatus');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : wanstatus/Connexion WAN');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('wanstatus');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Connexion WAN');
+        $cmd->setType('info');
+        $cmd->setSubType('binary');
+        $cmd->setEventOnly(1);
+        $cmd->setIsHistorized(0);
+        $cmd->setTemplate('mobile', 'line');
+        $cmd->setTemplate('dashboard', 'line');
+        $cmd->setOrder(3);
         $cmd->save();
       }
         

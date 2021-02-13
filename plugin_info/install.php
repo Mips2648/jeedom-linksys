@@ -25,7 +25,24 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 // Fonction exécutée automatiquement après la mise à jour du plugin
   function linksys_update() {
-
+    foreach (eqLogic::byType('linksys') as $eqLogic) {
+        $cmd = $eqLogic->getCmd(null, 'wanstatus');
+        if ( ! is_object($cmd)) {
+            $cmd = new linksysCmd();            
+            $cmd->setLogicalId('wanstatus');
+            $cmd->setEqLogic_id($eqLogic->getId());
+            $cmd->setName('Connexion WAN');
+            $cmd->setType('info');
+            $cmd->setSubType('binary');
+            $cmd->setEventOnly(1);
+            $cmd->setIsHistorized(0);
+            $cmd->setTemplate('mobile', 'line');
+            $cmd->setTemplate('dashboard', 'line');
+            $cmd->setOrder(3);
+            $cmd->save();
+        }
+        $eqLogic->save();
+    }
   }
 
 // Fonction exécutée automatiquement après la suppression du plugin
