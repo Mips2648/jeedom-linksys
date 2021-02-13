@@ -99,6 +99,7 @@ class linksys extends eqLogic {
           log::add(__CLASS__, 'debug', $this->getHumanName() . ' pull method used: ' . $pullMethod);
           if (!$pullMethodRecorded) {
             $this->setConfiguration('pullMethod', $pullMethod);
+            $this->save();
             log::add(__CLASS__, 'info', $this->getHumanName() . ' pull method recorded: ' . $pullMethod);
           }
           if ($pullMethod == "devicelist/GetDevices3") {
