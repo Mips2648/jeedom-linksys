@@ -177,6 +177,22 @@ class linksys extends eqLogic {
               $cmd->event($obj->output->isSwitchportLEDEnabled);
           }
       }
+        
+      $result = $this->executeLinksysCommand("firmwareupdate/GetFirmwareUpdateStatus");
+      $obj = json_decode($result);  
+      
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          log::add(__CLASS__, 'error', $this->getHumanName() . ' firmwareupdate/GetFirmwareUpdateStatus:' . $obj->result);
+      }
+      else {
+          $cmd = $this->getCmd(null, 'newfirmware');
+          if (isset($obj->output->availableUpdate)) {
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' ledstatus: ' . $obj->output->availableUpdate);          
+              $cmd->event(true);
+          } else {
+              $cmd->event(false);
+          }
+      }
     
     }
     
@@ -280,8 +296,6 @@ class linksys extends eqLogic {
     
     public function configLEDs($onoff) {
       log::add(__CLASS__, 'debug', $this->getHumanName() . ' configLEDs ' . $onoff);
-      $radios = $obj->output->radios;
-      $max = $obj->output->maxSimultaneousGuests;
       $arr = array('isSwitchportLEDEnabled' => $onoff);
       $json = json_encode($arr);
       $result = $this->executeLinksysCommand("routerleds/SetRouterLEDSettings", $json);
@@ -290,6 +304,17 @@ class linksys extends eqLogic {
         log::add(__CLASS__, 'error', $this->getHumanName() . ' routerleds/SetRouterLEDSettings:' . $obj->result);
       } else {
         log::add(__CLASS__, 'debug', $this->getHumanName() . ' LEDs Status: ' . $onoff);
+        $this->pullLinksys();
+      }
+    }
+    
+    public function updateFirmware() {
+      log::add(__CLASS__, 'debug', $this->getHumanName() . ' updateFirmware');
+      $result = $this->executeLinksysCommand("firmwareupdate/UpdateFirmwareNow");
+      $obj = json_decode($result);  
+      if (!isset($obj->result) || $obj->result <> "OK") {
+        log::add(__CLASS__, 'error', $this->getHumanName() . ' firmwareupdate/UpdateFirmwareNow:' . $obj->result);
+      } else {
         $this->pullLinksys();
       }
     }
@@ -614,6 +639,40 @@ class linksys extends eqLogic {
         $cmd->save();
       }
         
+      $cmd = $this->getCmd(null, 'newfirmware');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : newfirmware/Nouveau Firmware');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('newfirmware');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Nouveau Firmware');
+        $cmd->setType('info');
+        $cmd->setSubType('binary');
+        $cmd->setEventOnly(1);
+        $cmd->setIsHistorized(0);
+        $cmd->setTemplate('mobile', 'line');
+        $cmd->setTemplate('dashboard', 'line');
+        $cmd->setOrder(17);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'updatefirmware');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : updatefirmware/Update Firmware');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('updatefirmware');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Mise à jour Firmware');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setOrder(18);
+        $cmd->setDisplay('forceReturnLineAfter', 1);
+        $cmd->save();
+      }
+        
       if ($this->getIsEnable() == 1) {
         $this->pullLinksys();
       }
@@ -699,6 +758,9 @@ class linksysCmd extends cmd {
                break;
            case "unsetleds":
                $eqLogic->configLEDs(false);
+               break;
+           case "updatefirmware":
+               $eqLogic->updateFirmware();
                break;
        }
      }

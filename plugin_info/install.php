@@ -87,6 +87,41 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
             $cmd->setDisplay('forceReturnLineAfter', 1);
             $cmd->save();
         }
+        
+        $cmd = $eqLogic->getCmd(null, 'newfirmware');
+        if (!is_object($cmd))
+        {
+            $cmd = new linksysCmd();
+            $cmd->setLogicalId('newfirmware');
+            $cmd->setEqLogic_id($eqLogic->getId());
+            $cmd->setName('Nouveau Firmware');
+            $cmd->setType('info');
+            $cmd->setSubType('binary');
+            $cmd->setEventOnly(1);
+            $cmd->setIsHistorized(0);
+            $cmd->setTemplate('mobile', 'line');
+            $cmd->setTemplate('dashboard', 'line');
+            $cmd->setOrder(17);
+            $cmd->save();
+        }
+
+        $cmd = $eqLogic->getCmd(null, 'updatefirmware');
+        if (!is_object($cmd))
+        {
+            $cmd = new linksysCmd();
+            $cmd->setLogicalId('updatefirmware');
+            $cmd->setEqLogic_id($eqLogic->getId());
+            $cmd->setName('Mise à jour Firmware');
+            $cmd->setType('action');
+            $cmd->setSubType('other');
+            $cmd->setEventOnly(1);
+            $cmd->setOrder(18);
+            $cmd->setDisplay('forceReturnLineAfter', 1);
+            $cmd->save();
+        }
+        
+        
+        
         $cmd = $eqLogic->getCmd(null, 'reboot');
         if (is_object($cmd)) {
             $cmd->setDisplay('forceReturnLineAfter', 1);
