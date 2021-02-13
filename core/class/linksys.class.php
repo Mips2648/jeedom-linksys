@@ -102,9 +102,9 @@ class linksys extends eqLogic {
             log::add(__CLASS__, 'info', $this->getHumanName() . ' pull method recorded: ' . $pullMethod);
           }
           if ($pullMethod == "devicelist/GetDevices3") {
-              $parsing = parseDeviceListResults($obj);
+              $parsing = $this->parseDeviceListResults($obj);
           } else {
-              $parsing = parseNetworkConnectionsResults($obj);
+              $parsing = $this->parseNetworkConnectionsResults($obj);
           }
 
           log::add(__CLASS__, 'debug', $this->getHumanName() . ' pullLinksys: wifi24: ' . $parsing["wifi24"] . ', wifi5: ' . $parsing["wifi5"] . ', wired: ' . $parsing["wired"]);
