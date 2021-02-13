@@ -154,13 +154,27 @@ class linksys extends eqLogic {
       }
       else {
           if (isset($obj->output->wanStatus)) {
-              log::add(__CLASS__, 'debug', $this->getHumanName() . ' gueststatus: ' . $obj->output->wanStatus);
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' wanstatus: ' . $obj->output->wanStatus);
               $wanok = false;
               if ($obj->output->wanStatus == "Connected") {
                  $wanok = true; 
               }
               $cmd = $this->getCmd(null, 'wanstatus');
               $cmd->event($wanok);
+          }
+      }
+        
+      $result = $this->executeLinksysCommand("routerleds/GetRouterLEDSettings");
+      $obj = json_decode($result);  
+      
+      if (!isset($obj->result) || $obj->result <> "OK") {
+          log::add(__CLASS__, 'error', $this->getHumanName() . ' routerleds/GetRouterLEDSettings:' . $obj->result);
+      }
+      else {
+          if (isset($obj->output->isSwitchportLEDEnabled)) {
+              log::add(__CLASS__, 'debug', $this->getHumanName() . ' ledstatus: ' . $obj->output->isSwitchportLEDEnabled);
+              $cmd = $this->getCmd(null, 'ledstatus');
+              $cmd->event($obj->output->isSwitchportLEDEnabled);
           }
       }
     
@@ -261,6 +275,22 @@ class linksys extends eqLogic {
             log::add(__CLASS__, 'debug', $this->getHumanName() . ' Guest Control: ' . $onoff);
             $this->pullLinksys();
           }
+      }
+    }
+    
+    public function configLEDs($onoff) {
+      log::add(__CLASS__, 'debug', $this->getHumanName() . ' configLEDs ' . $onoff);
+      $radios = $obj->output->radios;
+      $max = $obj->output->maxSimultaneousGuests;
+      $arr = array('isSwitchportLEDEnabled' => $onoff);
+      $json = json_encode($arr);
+      $result = $this->executeLinksysCommand("routerleds/SetRouterLEDSettings", $json);
+      $obj = json_decode($result);  
+      if (!isset($obj->result) || $obj->result <> "OK") {
+        log::add(__CLASS__, 'error', $this->getHumanName() . ' routerleds/SetRouterLEDSettings:' . $obj->result);
+      } else {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' LEDs Status: ' . $onoff);
+        $this->pullLinksys();
       }
     }
  
@@ -534,6 +564,55 @@ class linksys extends eqLogic {
         $cmd->setOrder(20);
         $cmd->save();
       }
+
+      $cmd = $this->getCmd(null, 'ledstatus');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : ledstatus/LEDs');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('ledstatus');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('LEDs');
+        $cmd->setType('info');
+        $cmd->setSubType('binary');
+        $cmd->setEventOnly(1);
+        $cmd->setIsHistorized(0);
+        $cmd->setTemplate('mobile', 'line');
+        $cmd->setTemplate('dashboard', 'line');
+        $cmd->setOrder(14);
+        $cmd->save();
+      }
+        
+      $cmd = $this->getCmd(null, 'setleds');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : setleds/Allumer LEDs');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('setleds');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Allumer LEDs');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setOrder(15);
+        $cmd->save();
+      }
+
+      $cmd = $this->getCmd(null, 'unsetleds');
+      if (!is_object($cmd))
+      {
+        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Création commande : unsetguest/Eteindre LEDs');
+  		$cmd = new linksysCmd();
+        $cmd->setLogicalId('unsetleds');
+        $cmd->setEqLogic_id($this->getId());
+        $cmd->setName('Eteindre LEDs');
+        $cmd->setType('action');
+        $cmd->setSubType('other');
+        $cmd->setEventOnly(1);
+        $cmd->setOrder(16);
+        $cmd->setDisplay('forceReturnLineAfter', 1);
+        $cmd->save();
+      }
         
       if ($this->getIsEnable() == 1) {
         $this->pullLinksys();
@@ -614,6 +693,12 @@ class linksysCmd extends cmd {
                break;
            case "unsetguest":
                $eqLogic->configGuest(false);
+               break;
+           case "setleds":
+               $eqLogic->configLEDs(true);
+               break;
+           case "unsetleds":
+               $eqLogic->configLEDs(false);
                break;
        }
      }

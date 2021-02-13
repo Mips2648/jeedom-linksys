@@ -41,6 +41,58 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
             $cmd->setOrder(3);
             $cmd->save();
         }
+        
+        $cmd = $eqLogic->getCmd(null, 'ledstatus');
+        if (!is_object($cmd))
+          {
+            $cmd = new linksysCmd();
+            $cmd->setLogicalId('ledstatus');
+            $cmd->setEqLogic_id($eqLogic->getId());
+            $cmd->setName('LEDs');
+            $cmd->setType('info');
+            $cmd->setSubType('binary');
+            $cmd->setEventOnly(1);
+            $cmd->setIsHistorized(0);
+            $cmd->setTemplate('mobile', 'line');
+            $cmd->setTemplate('dashboard', 'line');
+            $cmd->setOrder(14);
+            $cmd->save();
+        }
+
+        $cmd = $eqLogic->getCmd(null, 'setleds');
+        if (!is_object($cmd))
+        {
+            $cmd = new linksysCmd();
+            $cmd->setLogicalId('setleds');
+            $cmd->setEqLogic_id($eqLogic->getId());
+            $cmd->setName('Allumer LEDs');
+            $cmd->setType('action');
+            $cmd->setSubType('other');
+            $cmd->setEventOnly(1);
+            $cmd->setOrder(15);
+            $cmd->save();
+        }
+
+        $cmd = $eqLogic->getCmd(null, 'unsetleds');
+        if (!is_object($cmd))
+        {
+            $cmd = new linksysCmd();
+            $cmd->setLogicalId('unsetleds');
+            $cmd->setEqLogic_id($eqLogic->getId());
+            $cmd->setName('Eteindre LEDs');
+            $cmd->setType('action');
+            $cmd->setSubType('other');
+            $cmd->setEventOnly(1);
+            $cmd->setOrder(16);
+            $cmd->setDisplay('forceReturnLineAfter', 1);
+            $cmd->save();
+        }
+        $cmd = $eqLogic->getCmd(null, 'reboot');
+        if (is_object($cmd)) {
+            $cmd->setDisplay('forceReturnLineAfter', 1);
+            $cmd->save();
+        }
+    
         $eqLogic->save();
     }
   }
