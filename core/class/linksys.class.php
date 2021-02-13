@@ -147,7 +147,7 @@ class linksys extends eqLogic {
     
     }
     
-    private function parseNetworkConnectionsResults($obj) {
+    public function parseNetworkConnectionsResults($obj) {
         $connections = $obj->output->connections;
         $wifi24 = 0;
         $wifi5 = 0;
@@ -168,7 +168,7 @@ class linksys extends eqLogic {
         return array("wired" => $wired, "wifi24" => $wifi24, "wifi5" => $wifi5);
     }
     
-    private function parseDeviceListResults($obj) {
+    public function parseDeviceListResults($obj) {
         $devices = $obj->output->devices;
         $wifi24 = 0;
         $wifi5 = 0;
