@@ -26,6 +26,9 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 // Fonction exécutée automatiquement après la mise à jour du plugin
   function linksys_update() {
     foreach (eqLogic::byType('linksys') as $eqLogic) {
+        
+        eqLogic->setDisplay('height','350px');
+        
         $cmd = $eqLogic->getCmd(null, 'wanstatus');
         if ( ! is_object($cmd)) {
             $cmd = new linksysCmd();            

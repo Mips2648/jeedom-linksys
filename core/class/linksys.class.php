@@ -321,7 +321,7 @@ class linksys extends eqLogic {
  
  // Fonction exécutée automatiquement avant la création de l'équipement
     public function preInsert() {
-      $this->setDisplay('height','300px');
+      $this->setDisplay('height','350px');
       $this->setDisplay('width', '384px');
       $this->setIsEnable(1);
       $this->setIsVisible(1);
