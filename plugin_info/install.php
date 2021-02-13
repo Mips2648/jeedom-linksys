@@ -27,7 +27,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
   function linksys_update() {
     foreach (eqLogic::byType('linksys') as $eqLogic) {
         
-        eqLogic->setDisplay('height','350px');
+        $eqLogic->setDisplay('height','350px');
         
         $cmd = $eqLogic->getCmd(null, 'wanstatus');
         if ( ! is_object($cmd)) {
