@@ -9,6 +9,9 @@ What is available:
 - Activate/Deactivate parental controls
 - Activate/Deactivate guest network
 - Reboot
+- Activate/Deactivate router LEDs
+- Control firmware upgrade
+- WAN status
 
 >**Important**      
 >This plugin has been tested with Linkys Velop VLP01 and firmware 1.1.13.202617. Will most probably work with others.
