@@ -9,6 +9,9 @@ Ce qui est disponible :
 - Activer/Désactiver le contrôle parental
 - Activer/Désactiver le réseau invités
 - Reboot
+- Activer/Désactiver les LEDs du routeur
+- Contrôle du firmware upgrade
+- WAN status
 
 >**Important**      
 >**Important**      
