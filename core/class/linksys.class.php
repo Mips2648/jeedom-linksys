@@ -361,7 +361,6 @@ class linksys extends eqLogic {
         $cmd->setName('Modèle');
         $cmd->setType('info');
         $cmd->setSubType('string');
-        $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
         $cmd->setOrder(1);
         $cmd->save();
@@ -377,7 +376,6 @@ class linksys extends eqLogic {
         $cmd->setName('Firmware');
         $cmd->setType('info');
         $cmd->setSubType('string');
-        $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
         $cmd->setDisplay('forceReturnLineAfter', 1);
         $cmd->setOrder(2);
@@ -394,7 +392,6 @@ class linksys extends eqLogic {
         $cmd->setName('Connexion WAN');
         $cmd->setType('info');
         $cmd->setSubType('binary');
-        $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
         $cmd->setTemplate('mobile', 'line');
         $cmd->setTemplate('dashboard', 'line');
@@ -472,7 +469,6 @@ class linksys extends eqLogic {
         $cmd->setName('Contrôle Parental');
         $cmd->setType('info');
         $cmd->setSubType('binary');
-        $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
         $cmd->setTemplate('mobile', 'line');
         $cmd->setTemplate('dashboard', 'line');
@@ -490,7 +486,6 @@ class linksys extends eqLogic {
         $cmd->setName('Activer Contrôle Parental');
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
         $cmd->setOrder(8);
         $cmd->save();
       }
@@ -505,7 +500,6 @@ class linksys extends eqLogic {
         $cmd->setName('Désactiver Contrôle Parental');
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
         $cmd->setDisplay('forceReturnLineAfter', 1);
         $cmd->setOrder(9);
         $cmd->save();
@@ -521,7 +515,6 @@ class linksys extends eqLogic {
         $cmd->setName('Réseau Invités');
         $cmd->setType('info');
         $cmd->setSubType('binary');
-        $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
         $cmd->setTemplate('mobile', 'line');
         $cmd->setTemplate('dashboard', 'line');
@@ -539,7 +532,6 @@ class linksys extends eqLogic {
         $cmd->setName('Activer Réseau Invités');
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
         $cmd->setOrder(11);
         $cmd->save();
       }
@@ -554,7 +546,6 @@ class linksys extends eqLogic {
         $cmd->setName('Désactiver Réseau Invités');
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
         $cmd->setOrder(12);
         $cmd->setDisplay('forceReturnLineAfter', 1);
         $cmd->save();
@@ -570,7 +561,6 @@ class linksys extends eqLogic {
         $cmd->setName('Reboot');
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
         $cmd->setOrder(13);
         $cmd->save();
       }
@@ -585,7 +575,6 @@ class linksys extends eqLogic {
         $cmd->setName('Rafraichir');
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
         $cmd->setOrder(20);
         $cmd->save();
       }
@@ -600,7 +589,6 @@ class linksys extends eqLogic {
         $cmd->setName('LEDs');
         $cmd->setType('info');
         $cmd->setSubType('binary');
-        $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
         $cmd->setTemplate('mobile', 'line');
         $cmd->setTemplate('dashboard', 'line');
@@ -618,7 +606,6 @@ class linksys extends eqLogic {
         $cmd->setName('Allumer LEDs');
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
         $cmd->setOrder(15);
         $cmd->save();
       }
@@ -633,7 +620,6 @@ class linksys extends eqLogic {
         $cmd->setName('Eteindre LEDs');
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
         $cmd->setOrder(16);
         $cmd->setDisplay('forceReturnLineAfter', 1);
         $cmd->save();
@@ -649,7 +635,6 @@ class linksys extends eqLogic {
         $cmd->setName('Nouveau Firmware');
         $cmd->setType('info');
         $cmd->setSubType('binary');
-        $cmd->setEventOnly(1);
         $cmd->setIsHistorized(0);
         $cmd->setTemplate('mobile', 'line');
         $cmd->setTemplate('dashboard', 'line');
@@ -667,7 +652,6 @@ class linksys extends eqLogic {
         $cmd->setName('Mise à jour Firmware');
         $cmd->setType('action');
         $cmd->setSubType('other');
-        $cmd->setEventOnly(1);
         $cmd->setOrder(18);
         $cmd->setDisplay('forceReturnLineAfter', 1);
         $cmd->save();

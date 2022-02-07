@@ -4,6 +4,9 @@
 >
 >As a reminder if there is no information on the update, it means that it only concerns the updating of documentation, translation or text.
 
+# 07/02/2022
+- Compatibility 4.2
+
 # 19/02/2021
 - Add LEDs control
 - Add WAN status
