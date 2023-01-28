@@ -18,20 +18,17 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
-// Fonction exécutée automatiquement après l'installation du plugin
-  function linksys_install() {
+function linksys_install() {
+}
 
-  }
-
-// Fonction exécutée automatiquement après la mise à jour du plugin
-  function linksys_update() {
+function linksys_update() {
     foreach (eqLogic::byType('linksys') as $eqLogic) {
-        
-        $eqLogic->setDisplay('height','380px');
-        
+
+        $eqLogic->setDisplay('height', '380px');
+
         $cmd = $eqLogic->getCmd(null, 'wanstatus');
-        if ( ! is_object($cmd)) {
-            $cmd = new linksysCmd();            
+        if (!is_object($cmd)) {
+            $cmd = new linksysCmd();
             $cmd->setLogicalId('wanstatus');
             $cmd->setEqLogic_id($eqLogic->getId());
             $cmd->setName('Connexion WAN');
@@ -43,10 +40,9 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
             $cmd->setOrder(3);
             $cmd->save();
         }
-        
+
         $cmd = $eqLogic->getCmd(null, 'ledstatus');
-        if (!is_object($cmd))
-          {
+        if (!is_object($cmd)) {
             $cmd = new linksysCmd();
             $cmd->setLogicalId('ledstatus');
             $cmd->setEqLogic_id($eqLogic->getId());
@@ -61,8 +57,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
         }
 
         $cmd = $eqLogic->getCmd(null, 'setleds');
-        if (!is_object($cmd))
-        {
+        if (!is_object($cmd)) {
             $cmd = new linksysCmd();
             $cmd->setLogicalId('setleds');
             $cmd->setEqLogic_id($eqLogic->getId());
@@ -74,8 +69,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
         }
 
         $cmd = $eqLogic->getCmd(null, 'unsetleds');
-        if (!is_object($cmd))
-        {
+        if (!is_object($cmd)) {
             $cmd = new linksysCmd();
             $cmd->setLogicalId('unsetleds');
             $cmd->setEqLogic_id($eqLogic->getId());
@@ -86,10 +80,9 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
             $cmd->setDisplay('forceReturnLineAfter', 1);
             $cmd->save();
         }
-        
+
         $cmd = $eqLogic->getCmd(null, 'newfirmware');
-        if (!is_object($cmd))
-        {
+        if (!is_object($cmd)) {
             $cmd = new linksysCmd();
             $cmd->setLogicalId('newfirmware');
             $cmd->setEqLogic_id($eqLogic->getId());
@@ -104,8 +97,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
         }
 
         $cmd = $eqLogic->getCmd(null, 'updatefirmware');
-        if (!is_object($cmd))
-        {
+        if (!is_object($cmd)) {
             $cmd = new linksysCmd();
             $cmd->setLogicalId('updatefirmware');
             $cmd->setEqLogic_id($eqLogic->getId());
@@ -116,22 +108,18 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
             $cmd->setDisplay('forceReturnLineAfter', 1);
             $cmd->save();
         }
-        
-        
-        
+
+
+
         $cmd = $eqLogic->getCmd(null, 'reboot');
         if (is_object($cmd)) {
             $cmd->setDisplay('forceReturnLineAfter', 1);
             $cmd->save();
         }
-    
+
         $eqLogic->save();
     }
-  }
+}
 
-// Fonction exécutée automatiquement après la suppression du plugin
-  function linksys_remove() {
-
-  }
-
-?>
+function linksys_remove() {
+}
