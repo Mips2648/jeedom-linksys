@@ -18,13 +18,13 @@
 
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
+require_once dirname(__FILE__) . '/../../vendor/autoload.php';
 
 class linksys extends eqLogic {
 
     public static function cron5() {
-        $eqLogics = self::byType(__CLASS__, true);
-
-        foreach ($eqLogics as $eqLogic) {
+        /** @var linksys */
+        foreach (eqLogic::byType(__CLASS__, true) as $eqLogic) {
             $eqLogic->pullLinksys();
         }
     }
@@ -175,7 +175,7 @@ class linksys extends eqLogic {
         }
     }
 
-    public function parseNetworkConnectionsResults($obj) {
+    private function parseNetworkConnectionsResults($obj) {
         $connections = $obj->output->connections;
         $wifi24 = 0;
         $wifi5 = 0;
@@ -196,7 +196,7 @@ class linksys extends eqLogic {
         return array("wired" => $wired, "wifi24" => $wifi24, "wifi5" => $wifi5);
     }
 
-    public function parseDeviceListResults($obj) {
+    private function parseDeviceListResults($obj) {
         $devices = $obj->output->devices;
         $wifi24 = 0;
         $wifi5 = 0;
@@ -298,15 +298,6 @@ class linksys extends eqLogic {
         }
     }
 
-    // Fonction exécutée automatiquement avant la création de l'équipement
-    public function preInsert() {
-        $this->setDisplay('height', '350px');
-        $this->setDisplay('width', '384px');
-        $this->setIsEnable(1);
-        $this->setIsVisible(1);
-    }
-
-    // Fonction exécutée automatiquement avant la mise à jour de l'équipement
     public function preUpdate() {
         if (empty($this->getConfiguration('ip'))) {
             throw new Exception(__('L\'adresse IP du routeur doit être renseignée', __FILE__));
@@ -327,7 +318,6 @@ class linksys extends eqLogic {
         }
     }
 
-    // Fonction exécutée automatiquement après la mise à jour de l'équipement
     public function postUpdate() {
 
         $cmd = $this->getCmd(null, 'model');
@@ -622,7 +612,7 @@ class linksys extends eqLogic {
         }
     }
 
-    public function executeFullLinksysCommand($ip, $login, $password, $action, $params = '{}') {
+    private function executeFullLinksysCommand($ip, $login, $password, $action, $params = '{}') {
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "http://" . $ip . "/JNAP/",
@@ -650,7 +640,7 @@ class linksys extends eqLogic {
         return $response;
     }
 
-    public function executeLinksysCommand($action, $params = '{}') {
+    private function executeLinksysCommand($action, $params = '{}') {
         $ip = $this->getConfiguration('ip');
         $login = $this->getConfiguration('login');
         $password = $this->getConfiguration('password');
