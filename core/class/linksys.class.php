@@ -101,7 +101,7 @@ class linksys extends eqLogic {
         }
     }
 
-    public function updateDevicesCounter() {
+    private function updateDevicesCounter() {
         $resultNetworkConnections = $this->tryGetNetworkConnections();
         if ($resultNetworkConnections !== true) {
             $resultDevices = $this->tryGetDevicelist();
@@ -112,7 +112,7 @@ class linksys extends eqLogic {
         }
     }
 
-    public function updateParentalStatus() {
+    private function updateParentalStatus() {
         $result = $this->getClient()->GetParentalControlSettings();
         if (!$result->isSuccess()) {
             log::add(__CLASS__, 'error', $this->getHumanName() . ' parentalstatus:' . $result->getResult());
@@ -124,7 +124,7 @@ class linksys extends eqLogic {
         }
     }
 
-    public function updateGuestStatus() {
+    private function updateGuestStatus() {
         $result = $this->getClient()->GetGuestRadioSettings();
         if (!$result->isSuccess()) {
             log::add(__CLASS__, 'error', $this->getHumanName() . ' gueststatus:' . $result->getResult());
@@ -136,7 +136,7 @@ class linksys extends eqLogic {
         }
     }
 
-    public function updateWanStatus() {
+    private function updateWanStatus() {
         $result = $this->getClient()->GetWANStatus();
         if (!$result->isSuccess()) {
             log::add(__CLASS__, 'error', $this->getHumanName() . ' wanstatus:' . $result->getResult());
@@ -148,7 +148,7 @@ class linksys extends eqLogic {
         }
     }
 
-    public function updateLEDStatus() {
+    private function updateLEDStatus() {
         $result = $this->getClient()->GetRouterLEDSettings();
         if (!$result->isSuccess()) {
             log::add(__CLASS__, 'error', $this->getHumanName() . ' ledstatus:' . $result->getResult());
@@ -160,7 +160,7 @@ class linksys extends eqLogic {
         }
     }
 
-    public function updateNewfirmware() {
+    private function updateNewfirmware() {
         $result = $this->getClient()->GetFirmwareUpdateStatus();
         if (!$result->isSuccess()) {
             log::add(__CLASS__, 'error', $this->getHumanName() . ' newfirmware:' . $result->getResult());
@@ -173,7 +173,7 @@ class linksys extends eqLogic {
     }
 
     public function pullLinksys() {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Execution of pullLinksys');
+        log::add(__CLASS__, 'info', 'Refresh ' . $this->getHumanName());
 
         $this->updateDevicesCounter();
 
@@ -185,7 +185,7 @@ class linksys extends eqLogic {
     }
 
     public function rebootLinksys() {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' Execution of rebootLinksys');
+        log::add(__CLASS__, 'info', 'Reboot ' . $this->getHumanName());
         $response = $this->getClient()->Reboot();
 
         if (!$response->isSuccess()) {
@@ -196,7 +196,7 @@ class linksys extends eqLogic {
     }
 
     public function configParental($onoff) {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' configParental ' . $onoff);
+        log::add(__CLASS__, 'info', 'set parental status of ' . $this->getHumanName() . ' to ' . $onoff ? 'true' : 'false');
 
         $response = $this->getClient()->SetParentalControlSettings($onoff);
         if (!$response->isSuccess()) {
@@ -207,7 +207,7 @@ class linksys extends eqLogic {
     }
 
     public function configGuest($onoff) {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' configGuest ' . $onoff);
+        log::add(__CLASS__, 'info', 'set guest status of ' . $this->getHumanName() . ' to ' . $onoff ? 'true' : 'false');
 
         $response = $this->getClient()->SetGuestRadioSettings($onoff);
         if (!$response->isSuccess()) {
@@ -218,7 +218,7 @@ class linksys extends eqLogic {
     }
 
     public function configLEDs($onoff) {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' configLEDs ' . $onoff);
+        log::add(__CLASS__, 'info', 'set led status of ' . $this->getHumanName() . ' to ' . $onoff ? 'true' : 'false');
 
         $response = $this->getClient()->SetRouterLEDSettings($onoff);
         if (!$response->isSuccess()) {
@@ -229,7 +229,7 @@ class linksys extends eqLogic {
     }
 
     public function updateFirmware() {
-        log::add(__CLASS__, 'debug', $this->getHumanName() . ' updateFirmware');
+        log::add(__CLASS__, 'info', 'update firmware of ' . $this->getHumanName());
         $response = $this->getClient()->UpdateFirmware();
         if (!$response->isSuccess()) {
             log::add(__CLASS__, 'error', $this->getHumanName() . ' updateFirmware:' . $response->getResult());
