@@ -128,21 +128,84 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">{{Adresse IP du routeur}}</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ip" placeholder="Adresse IP du routeur" />
+                                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ip" placeholder="Entrez l'adresse IP du routeur" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">{{Identifiant Admin}}</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="login" placeholder="Identifiant Admin" />
+                                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="login" placeholder="admin" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">{{Mot de passe Admin}}</label>
                                 <div class="col-sm-4">
-                                    <input type="password" autocomplete="new-password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="password" placeholder="Mot de passe Admin" />
+                                    <input type="password" autocomplete="new-password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="password" placeholder="Entrez le mot de passe admin" />
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">{{Auto-actualisation}}
+                                    <sup><i class="fas fa-question-circle tooltips" title="{{Fréquence de rafraîchissement des commandes infos de l'équipement (par défaut 5min.)}}"></i></sup>
+                                </label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="autorefresh" placeholder="*/5 * * * *">
+                                        <span class="input-group-btn">
+                                            <a class="btn btn-default cursor jeeHelper roundedRight" data-helper="cron" title="Assistant cron">
+                                                <i class="fas fa-question-circle"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <legend><i class="fas fa-info"></i> {{Informations}}</legend>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{Fabricant}}</label>
+                                <div class="col-sm-9">
+                                    <span class="label label-info eqLogicAttr" data-l1key="configuration" data-l2key="manufacturer"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{Modèle}}</label>
+                                <div class="col-sm-9">
+                                    <span class="label label-info eqLogicAttr" data-l1key="configuration" data-l2key="modelNumber"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{Description}}</label>
+                                <div class="col-sm-9">
+                                    <span class="label label-info eqLogicAttr" data-l1key="configuration" data-l2key="description"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{Version matériel}}</label>
+                                <div class="col-sm-9">
+                                    <span class="label label-info eqLogicAttr" data-l1key="configuration" data-l2key="hardwareVersion"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{Numéro de série}}</label>
+                                <div class="col-sm-9">
+                                    <span class="label label-info eqLogicAttr" data-l1key="configuration" data-l2key="serialNumber"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{Version firmware}}</label>
+                                <div class="col-sm-9">
+                                    <span class="label label-info eqLogicAttr" data-l1key="configuration" data-l2key="firmwareVersion"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">{{Date firmware}}</label>
+                                <div class="col-sm-9">
+                                    <span class="label label-info eqLogicAttr" data-l1key="configuration" data-l2key="firmwareDate"></span>
+                                </div>
+                            </div>
+
+                        </div>
                     </fieldset>
                 </form>
             </div>
