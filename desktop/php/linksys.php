@@ -161,7 +161,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
                         </div>
                         <div class="col-lg-5">
                             <legend><i class="fas fa-info"></i> {{Informations}}</legend>
-
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">{{Fabricant}}</label>
                                 <div class="col-sm-9">
@@ -204,7 +203,6 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                     <span class="label label-info eqLogicAttr" data-l1key="configuration" data-l2key="firmwareDate"></span>
                                 </div>
                             </div>
-
                         </div>
                     </fieldset>
                 </form>

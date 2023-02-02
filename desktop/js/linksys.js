@@ -17,9 +17,7 @@
 
 
 $("#table_cmd").sortable({ axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true });
-/*
- * Fonction permettant l'affichage des commandes dans l'équipement
- */
+
 function addCmdToTable(_cmd) {
     if (!isset(_cmd)) {
         var _cmd = { configuration: {} };
