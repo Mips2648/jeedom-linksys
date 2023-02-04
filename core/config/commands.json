@@ -1,0 +1,177 @@
+{
+    "linksys": [
+        {
+            "logicalId": "refresh",
+            "name": "Rafraichir",
+            "type": "action",
+            "subtype": "other",
+            "isVisible": 1
+        },
+        {
+            "logicalId": "reboot",
+            "name": "Redémarrer",
+            "type": "action",
+            "subtype": "other",
+            "isVisible": 0
+        },
+        {
+            "logicalId": "updatefirmware",
+            "name": "Mise à jour Firmware",
+            "type": "action",
+            "subtype": "other",
+            "isVisible": 0
+        },
+        {
+            "logicalId": "wanstatus",
+            "name": "Connexion WAN",
+            "type": "info",
+            "subtype": "binary",
+            "isVisible": 1,
+            "isHistorized": 0
+        },
+        {
+            "logicalId": "parentalstatus",
+            "name": "Contrôle parental",
+            "type": "info",
+            "subtype": "binary",
+            "isVisible": 0,
+            "isHistorized": 0
+        },
+        {
+            "logicalId": "setparental",
+            "name": "Activer contrôle parental",
+            "type": "action",
+            "subtype": "other",
+            "isVisible": 1,
+            "value": "parentalstatus",
+            "template": {
+                "dashboard": "core::binarySwitch",
+                "mobile": "core::binarySwitch"
+            }
+        },
+        {
+            "logicalId": "unsetparental",
+            "name": "Désactiver contrôle parental",
+            "type": "action",
+            "subtype": "other",
+            "isVisible": 1,
+            "value": "parentalstatus",
+            "template": {
+                "dashboard": "core::binarySwitch",
+                "mobile": "core::binarySwitch"
+            }
+        },
+        {
+            "logicalId": "gueststatus",
+            "name": "Réseau Invités",
+            "type": "info",
+            "subtype": "binary",
+            "isVisible": 0,
+            "isHistorized": 0
+        },
+        {
+            "logicalId": "setguest",
+            "name": "Activer réseau invités",
+            "type": "action",
+            "subtype": "other",
+            "isVisible": 1,
+            "value": "gueststatus",
+            "template": {
+                "dashboard": "core::binarySwitch",
+                "mobile": "core::binarySwitch"
+            }
+        },
+        {
+            "logicalId": "unsetguest",
+            "name": "Désactiver réseau invités",
+            "type": "action",
+            "subtype": "other",
+            "isVisible": 1,
+            "value": "gueststatus",
+            "template": {
+                "dashboard": "core::binarySwitch",
+                "mobile": "core::binarySwitch"
+            }
+        },
+        {
+            "logicalId": "ledstatus",
+            "name": "LEDs",
+            "type": "info",
+            "subtype": "binary",
+            "isVisible": 0,
+            "isHistorized": 0
+        },
+        {
+            "logicalId": "setleds",
+            "name": "Allumer LEDs",
+            "type": "action",
+            "subtype": "other",
+            "isVisible": 1,
+            "value": "ledstatus",
+            "template": {
+                "dashboard": "core::binarySwitch",
+                "mobile": "core::binarySwitch"
+            }
+        },
+        {
+            "logicalId": "unsetleds",
+            "name": "Eteindre LEDs",
+            "type": "action",
+            "subtype": "other",
+            "isVisible": 1,
+            "value": "ledstatus",
+            "template": {
+                "dashboard": "core::binarySwitch",
+                "mobile": "core::binarySwitch"
+            }
+        },
+        {
+            "logicalId": "newfirmware",
+            "name": "Nouveau firmware",
+            "type": "info",
+            "subtype": "binary",
+            "isVisible": 0,
+            "isHistorized": 0,
+            "template": {
+                "dashboard": "line",
+                "mobile": "line"
+            }
+        },
+        {
+            "logicalId": "wifi24",
+            "name": "Wifi 2.4GHz",
+            "type": "info",
+            "subtype": "numeric",
+            "isVisible": 1,
+            "isHistorized": 0,
+            "template": {
+                "dashboard": "tile",
+                "mobile": "tile"
+            }
+        },
+        {
+            "logicalId": "wifi5",
+            "name": "Wifi 5GHz",
+            "type": "info",
+            "subtype": "numeric",
+            "isVisible": 1,
+            "isHistorized": 0,
+            "template": {
+                "dashboard": "tile",
+                "mobile": "tile"
+            }
+        },
+        {
+            "logicalId": "wired",
+            "name": "Ethernet",
+            "type": "info",
+            "subtype": "numeric",
+            "isVisible": 1,
+            "isHistorized": 0,
+            "template": {
+                "dashboard": "tile",
+                "mobile": "tile"
+            }
+        }
+    ]
+}

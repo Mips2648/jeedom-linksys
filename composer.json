@@ -1,0 +1,5 @@
+{
+    "require": {
+        "mips/jeedom-tools": "^0.18.0"
+    }
+}
