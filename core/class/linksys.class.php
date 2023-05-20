@@ -145,6 +145,9 @@ class linksys extends eqLogic {
             if (isset($output->wanStatus)) {
                 $this->checkAndUpdateCmd('wanstatus', ($output->wanStatus === 'Connected'));
             }
+            if (isset($output->wanConnection->wanType)) {
+                $this->checkAndUpdateCmd('wanType', $output->wanConnection->wanType);
+            }
         }
     }
 

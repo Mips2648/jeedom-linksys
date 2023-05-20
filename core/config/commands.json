@@ -23,9 +23,17 @@
         },
         {
             "logicalId": "wanstatus",
-            "name": "Connexion WAN",
+            "name": "Statut WAN",
             "type": "info",
             "subtype": "binary",
+            "isVisible": 1,
+            "isHistorized": 0
+        },
+        {
+            "logicalId": "wanType",
+            "name": "Type WAN",
+            "type": "info",
+            "subtype": "string",
             "isVisible": 1,
             "isHistorized": 0
         },

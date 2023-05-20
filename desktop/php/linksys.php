@@ -140,14 +140,19 @@ $eqLogics = eqLogic::byType($plugin->getId());
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">{{Mot de passe Admin}}</label>
                                 <div class="col-sm-4">
-                                    <input type="password" autocomplete="new-password" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="password" placeholder="Entrez le mot de passe admin" />
+                                    <div class="input-group">
+                                        <input type="text" autocomplete="new-password" class="eqLogicAttr form-control roundedLeft inputPassword" data-l1key="configuration" data-l2key="password" placeholder="Entrez le mot de passe admin" />
+                                        <span class="input-group-btn">
+                                            <a class="btn btn-default form-control bt_showPass roundedRight"><i class="fas fa-eye"></i></a>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">{{Auto-actualisation}}
                                     <sup><i class="fas fa-question-circle tooltips" title="{{Fréquence de rafraîchissement des commandes infos de l'équipement (par défaut 5min.)}}"></i></sup>
                                 </label>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="input-group">
                                         <input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="autorefresh" placeholder="*/5 * * * *">
                                         <span class="input-group-btn">
