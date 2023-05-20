@@ -103,12 +103,10 @@ class linksys extends eqLogic {
 
     private function updateDevicesCounter() {
         $resultNetworkConnections = $this->tryGetNetworkConnections();
-        if ($resultNetworkConnections !== true) {
-            $resultDevices = $this->tryGetDevicelist();
-            if ($resultDevices !== true) {
-                log::add(__CLASS__, 'error', $this->getHumanName() . ' networkConnections:' . $resultNetworkConnections->getResult());
-                log::add(__CLASS__, 'error', $this->getHumanName() . ' devices:' . $resultDevices->getResult());
-            }
+        $resultDevices = $this->tryGetDevicelist();
+        if ($resultNetworkConnections !== true || $resultDevices !== true) {
+              log::add(__CLASS__, 'error', $this->getHumanName() . ' networkConnections:' . $resultNetworkConnections->getResult());
+              log::add(__CLASS__, 'error', $this->getHumanName() . ' devices:' . $resultDevices->getResult());
         }
     }
 
