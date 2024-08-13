@@ -6,6 +6,26 @@
         "L\\'adresse IP du routeur doit être renseignée": "O endereço IP do router deve ser preenchido",
         "Le mot de passe du compte Admin doit être renseigné": "A palavra-passe da conta de administrador deve ser introduzida"
     },
+    "plugins\/linksys\/core\/config\/commands.json": {
+        "Activer contrôle parental": "Ativar o controlo parental",
+        "Activer réseau invités": "Ativar a rede de convidados",
+        "Allumer LEDs": "Ligar os LEDs",
+        "Contrôle parental": "Controlo parental",
+        "Désactiver contrôle parental": "Desativar o controlo parental",
+        "Désactiver réseau invités": "Desativar a rede de convidados",
+        "Eteindre LEDs": "Desligar os LEDs",
+        "Ethernet": "Ethernet",
+        "LEDs": "LEDs",
+        "Mise à jour Firmware": "Atualização do firmware",
+        "Nouveau firmware": "Novo firmware",
+        "Rafraichir": "Recarregar",
+        "Redémarrer": "Reiniciar",
+        "Réseau Invités": "Rede de convidados",
+        "Statut WAN": "Estado da WAN",
+        "Type WAN": "Tipo WAN",
+        "Wifi 2.4GHz": "Wifi 2.4GHz",
+        "Wifi 5GHz": "Wifi 5GHz"
+    },
     "plugins\/linksys\/desktop\/js\/linksys.js": {
         "Afficher": "Mostrar",
         "Aucune": "Nenhuma",
