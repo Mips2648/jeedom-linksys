@@ -2,28 +2,28 @@
     "linksys": [
         {
             "logicalId": "refresh",
-            "name": "Rafraichir",
+            "name": "{{Rafraichir}}",
             "type": "action",
             "subtype": "other",
             "isVisible": 1
         },
         {
             "logicalId": "reboot",
-            "name": "Redémarrer",
+            "name": "{{Redémarrer}}",
             "type": "action",
             "subtype": "other",
             "isVisible": 0
         },
         {
             "logicalId": "updatefirmware",
-            "name": "Mise à jour Firmware",
+            "name": "{{Mise à jour Firmware}}",
             "type": "action",
             "subtype": "other",
             "isVisible": 0
         },
         {
             "logicalId": "wanstatus",
-            "name": "Statut WAN",
+            "name": "{{Statut WAN}}",
             "type": "info",
             "subtype": "binary",
             "isVisible": 1,
@@ -31,7 +31,7 @@
         },
         {
             "logicalId": "wanType",
-            "name": "Type WAN",
+            "name": "{{Type WAN}}",
             "type": "info",
             "subtype": "string",
             "isVisible": 1,
@@ -39,7 +39,7 @@
         },
         {
             "logicalId": "parentalstatus",
-            "name": "Contrôle parental",
+            "name": "{{Contrôle parental}}",
             "type": "info",
             "subtype": "binary",
             "isVisible": 0,
@@ -47,7 +47,7 @@
         },
         {
             "logicalId": "setparental",
-            "name": "Activer contrôle parental",
+            "name": "{{Activer contrôle parental}}",
             "type": "action",
             "subtype": "other",
             "isVisible": 1,
@@ -59,7 +59,7 @@
         },
         {
             "logicalId": "unsetparental",
-            "name": "Désactiver contrôle parental",
+            "name": "{{Désactiver contrôle parental}}",
             "type": "action",
             "subtype": "other",
             "isVisible": 1,
@@ -71,7 +71,7 @@
         },
         {
             "logicalId": "gueststatus",
-            "name": "Réseau Invités",
+            "name": "{{Réseau Invités}}",
             "type": "info",
             "subtype": "binary",
             "isVisible": 0,
@@ -79,7 +79,7 @@
         },
         {
             "logicalId": "setguest",
-            "name": "Activer réseau invités",
+            "name": "{{Activer réseau invités}}",
             "type": "action",
             "subtype": "other",
             "isVisible": 1,
@@ -91,7 +91,7 @@
         },
         {
             "logicalId": "unsetguest",
-            "name": "Désactiver réseau invités",
+            "name": "{{Désactiver réseau invités}}",
             "type": "action",
             "subtype": "other",
             "isVisible": 1,
@@ -103,7 +103,7 @@
         },
         {
             "logicalId": "ledstatus",
-            "name": "LEDs",
+            "name": "{{LEDs}}",
             "type": "info",
             "subtype": "binary",
             "isVisible": 0,
@@ -111,7 +111,7 @@
         },
         {
             "logicalId": "setleds",
-            "name": "Allumer LEDs",
+            "name": "{{Allumer LEDs}}",
             "type": "action",
             "subtype": "other",
             "isVisible": 1,
@@ -123,7 +123,7 @@
         },
         {
             "logicalId": "unsetleds",
-            "name": "Eteindre LEDs",
+            "name": "{{Eteindre LEDs}}",
             "type": "action",
             "subtype": "other",
             "isVisible": 1,
@@ -135,7 +135,7 @@
         },
         {
             "logicalId": "newfirmware",
-            "name": "Nouveau firmware",
+            "name": "{{Nouveau firmware}}",
             "type": "info",
             "subtype": "binary",
             "isVisible": 0,
@@ -147,7 +147,7 @@
         },
         {
             "logicalId": "wifi24",
-            "name": "Wifi 2.4GHz",
+            "name": "{{Wifi 2.4GHz}}",
             "type": "info",
             "subtype": "numeric",
             "isVisible": 1,
@@ -159,7 +159,7 @@
         },
         {
             "logicalId": "wifi5",
-            "name": "Wifi 5GHz",
+            "name": "{{Wifi 5GHz}}",
             "type": "info",
             "subtype": "numeric",
             "isVisible": 1,
@@ -171,7 +171,7 @@
         },
         {
             "logicalId": "wired",
-            "name": "Ethernet",
+            "name": "{{Ethernet}}",
             "type": "info",
             "subtype": "numeric",
             "isVisible": 1,
