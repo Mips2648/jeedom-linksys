@@ -18,25 +18,20 @@
 
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
+function InstallComposerDependencies(string $pluginId) {
+    log::add($pluginId, 'info', 'Install composer dependencies');
+    $cmd = 'cd ' . __DIR__ . '/../;export COMPOSER_ALLOW_SUPERUSER=1;export COMPOSER_HOME="/tmp/composer";' . system::getCmdSudo() . 'composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader;' . system::getCmdSudo() . ' chown -R www-data:www-data *';
+    shell_exec($cmd);
+}
+
 function linksys_install() {
+    $pluginId = 'linksys';
+    InstallComposerDependencies($pluginId);
 }
 
 function linksys_update() {
-    /** @var eqLogic */
-    foreach (eqLogic::byType('linksys') as $eqLogic) {
-
-        /** @var cmd */
-        $cmd = $eqLogic->getCmd('info', 'model');
-        if (is_object($cmd)) {
-            $cmd->remove();
-        }
-        $cmd = $eqLogic->getCmd('info', 'firmware');
-        if (is_object($cmd)) {
-            $cmd->remove();
-        }
-        $eqLogic->setConfiguration('pullMethod', null);
-        $eqLogic->save();
-    }
+    $pluginId = 'linksys';
+    InstallComposerDependencies($pluginId);
 }
 
 function linksys_remove() {
