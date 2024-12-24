@@ -43,6 +43,6 @@
             "install-path": "../mips/jeedom-tools"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }

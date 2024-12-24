@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
-        'name' => '__root__',
+        'name' => 'mips/jeedom-linksys',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '1beef87b9bcc884ba5a60905b13f4d255b47b825',
+        'reference' => '8d08769abb97f2b8d14c54004b4f47ba3358f5b5',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
-        '__root__' => array(
+        'mips/jeedom-linksys' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '1beef87b9bcc884ba5a60905b13f4d255b47b825',
+            'reference' => '8d08769abb97f2b8d14c54004b4f47ba3358f5b5',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
