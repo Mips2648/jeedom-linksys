@@ -1,4 +1,5 @@
 {
+    "name": "mips/jeedom-linksys",
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
