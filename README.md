@@ -1,5 +1,7 @@
 # plugin-linksys
 
+[![CI](https://github.com/mips2648/jeedom-linksys/actions/workflows/ci.yml/badge.svg)](https://github.com/mips2648/jeedom-linksys/actions/workflows/ci.yml)
+
 This is a plugin for Jeedom aimed at retrieving informations and control some aspects of compatible Linksys routers.
 
 This implies to have a compatible Linksys router and a proper local Jeedom installation.
