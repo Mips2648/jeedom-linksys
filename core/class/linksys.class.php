@@ -288,7 +288,7 @@ class linksys extends eqLogic {
 
 class linksysCmd extends cmd {
 
-    public function execute($_options = array()) {
+    public function execute($_options = array()): bool {
         /** @var linksys */
         $eqLogic = $this->getEqLogic();
         log::add('linksys', 'debug', 'Execution de la commande ' . $this->getLogicalId());
@@ -321,5 +321,6 @@ class linksysCmd extends cmd {
                 $eqLogic->updateFirmware();
                 break;
         }
+        return true;
     }
 }
