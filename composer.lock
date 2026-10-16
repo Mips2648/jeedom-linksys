@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a39e28034debc58486b78ddc583008aa",
+    "content-hash": "032406fb0650aa8dd11394bbcf9ff04c",
     "packages": [
         {
             "name": "mips/jeedom-tools",
@@ -52,10 +52,9 @@
     "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": {},
-    "platform-dev": {},
-    "platform-overrides": {
-        "php": "7.4"
+    "platform": {
+        "php": "^8.2"
     },
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
