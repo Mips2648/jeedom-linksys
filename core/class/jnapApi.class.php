@@ -4,22 +4,22 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 class jnapResult {
-    private $response;
+    private array $response;
 
-    public function __construct($response) {
-        $this->response = json_decode($response);;
+    public function __construct(string $response) {
+        $this->response = json_decode($response, true);;
     }
 
     public function isSuccess() {
-        return isset($this->response->{'result'}) && $this->response->{'result'} === 'OK';
+        return isset($this->response['result']) && $this->response['result'] === 'OK';
     }
 
     public function getOutput() {
-        return $this->isSuccess() ? $this->response->{'output'} : (object)[];
+        return $this->isSuccess() ? $this->response['output'] : (object)[];
     }
 
     public function getResult() {
-        return $this->response->{'result'} ?? (object)[];
+        return $this->response['result'] ?? (object)[];
     }
 }
 
@@ -33,13 +33,13 @@ class jnapClient {
     private $url = '';
     private $auth = '';
 
-    public function __construct($host, $user, $pswd, LoggerInterface $logger = null) {
+    public function __construct(string $host, string $user, string $pswd, ?LoggerInterface $logger = null) {
         $this->logger = $logger ?? new NullLogger();
         $this->url = "http://{$host}/JNAP/";
         $this->auth = base64_encode("{$user}:{$pswd}");
     }
 
-    private function PostAction($action, $data = []) {
+    private function PostAction(string $action, array $data = []) {
         $headers = [
             "Content-Type: application/json; charset=utf-8",
             "Accept: application/json",
@@ -131,7 +131,7 @@ class jnapClient {
         return $this->PostAction('firmwareupdate/UpdateFirmwareNow');
     }
 
-    public function SetParentalControlSettings($enable) {
+    public function SetParentalControlSettings(bool $enable) {
         $response = $this->GetParentalControlSettings();
         if (!$response->isSuccess()) {
             return $response;
@@ -142,7 +142,7 @@ class jnapClient {
         }
     }
 
-    public function SetGuestRadioSettings($enable) {
+    public function SetGuestRadioSettings(bool $enable) {
         $response = $this->GetGuestRadioSettings();
         if (!$response->isSuccess()) {
             return $response;
@@ -154,7 +154,7 @@ class jnapClient {
         }
     }
 
-    public function SetRouterLEDSettings($enable) {
+    public function SetRouterLEDSettings(bool $enable) {
         $params = array('isSwitchportLEDEnabled' => $enable);
         return $this->PostAction('routerleds/SetRouterLEDSettings', $params);
     }

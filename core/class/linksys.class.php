@@ -7,9 +7,9 @@ require_once __DIR__  . '/jnapApi.class.php';
 class linksys extends eqLogic {
     use MipsEqLogicTrait;
 
-    private $_client = null;
     private function getClient() {
-        return $_client ?? $this->_client = new jnapClient($this->getConfiguration('ip'), $this->getConfiguration('login', 'admin'), $this->getConfiguration('password'), log::getLogger(__CLASS__));
+        static $_client = null;
+        return $_client ?? $_client = new jnapClient($this->getConfiguration('ip'), $this->getConfiguration('login', 'admin'), $this->getConfiguration('password'), log::getLogger(__CLASS__));
     }
 
     public static function cron() {
@@ -198,8 +198,8 @@ class linksys extends eqLogic {
         }
     }
 
-    public function configParental($onoff) {
-        log::add(__CLASS__, 'info', 'set parental status of ' . $this->getHumanName() . ' to ' . $onoff ? 'true' : 'false');
+    public function configParental(bool $onoff) {
+        log::add(__CLASS__, 'info', 'set parental status of ' . $this->getHumanName() . ' to ' . ($onoff ? 'true' : 'false'));
 
         $response = $this->getClient()->SetParentalControlSettings($onoff);
         if (!$response->isSuccess()) {
@@ -209,8 +209,8 @@ class linksys extends eqLogic {
         }
     }
 
-    public function configGuest($onoff) {
-        log::add(__CLASS__, 'info', 'set guest status of ' . $this->getHumanName() . ' to ' . $onoff ? 'true' : 'false');
+    public function configGuest(bool $onoff) {
+        log::add(__CLASS__, 'info', 'set guest status of ' . $this->getHumanName() . ' to ' . ($onoff ? 'true' : 'false'));
 
         $response = $this->getClient()->SetGuestRadioSettings($onoff);
         if (!$response->isSuccess()) {
@@ -220,8 +220,8 @@ class linksys extends eqLogic {
         }
     }
 
-    public function configLEDs($onoff) {
-        log::add(__CLASS__, 'info', 'set led status of ' . $this->getHumanName() . ' to ' . $onoff ? 'true' : 'false');
+    public function configLEDs(bool $onoff) {
+        log::add(__CLASS__, 'info', 'set led status of ' . $this->getHumanName() . ' to ' . ($onoff ? 'true' : 'false'));
 
         $response = $this->getClient()->SetRouterLEDSettings($onoff);
         if (!$response->isSuccess()) {
@@ -279,7 +279,7 @@ class linksys extends eqLogic {
         }
     }
 
-    public function pullLinksysAsync($_options) {
+    public function pullLinksysAsync(array $_options) {
         /** @var linksys $eqLogic */
         $eqLogic = eqLogic::byId($_options['eqLogic_id']);
         $eqLogic->pullLinksys();
@@ -288,7 +288,7 @@ class linksys extends eqLogic {
 
 class linksysCmd extends cmd {
 
-    public function execute($_options = array()) {
+    public function execute($_options = array()): bool {
         /** @var linksys */
         $eqLogic = $this->getEqLogic();
         log::add('linksys', 'debug', 'Execution de la commande ' . $this->getLogicalId());
@@ -321,5 +321,6 @@ class linksysCmd extends cmd {
                 $eqLogic->updateFirmware();
                 break;
         }
+        return true;
     }
 }
